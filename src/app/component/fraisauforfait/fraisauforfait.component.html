@@ -1,0 +1,20 @@
+<div class="main">
+  <h1>Ligne au forfait</h1>
+<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+  <label for="libelles">Choisissez une option :</label>
+  <select formControlName="libelle" id="libelle" required>
+    <option *ngFor="let libelle of libelles" [value]="libelle.label">
+      {{ libelle.label }}
+    </option>
+  </select>
+  <div>
+    <label for="date">Date :</label>
+    <input id="date" formControlName="date" type="date" required>
+  </div>
+  <div>
+    <label for="montant">Montant :</label>
+    <input id="montant" formControlName="montant" type="double" required>
+  </div>
+  <button type="submit">Envoyer</button>
+</form>
+</div>

@@ -1,0 +1,115 @@
+.main {
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s;
+  width: 700px;
+  text-align: center;
+  float : center;
+  margin-top: 100px;
+  margin-right:auto;
+  margin-left:auto;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+h1 {
+  color: #4CAF50;
+}
+
+h3 {
+  color: #2b812d;
+}
+
+label {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  text-align: left;
+  color: #555;
+  font-weight: bold;
+}
+
+input {
+  display: block;
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+button {
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  background-color: #4CAF50;
+  width: 100%;
+  font-size: 16px;
+}
+
+.wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.choicenumber button{
+  padding: 5px;
+  border-radius: 10px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  margin-left: -60%;
+  border: none;
+  color: white;
+  cursor: pointer;
+  background-color: #7b7b7b;
+  width: 40%;
+  font-size: 16px;
+
+}
+
+.supprimer button{
+  margin-left: 80%;
+  border: none;
+  color: white;
+  cursor: pointer;
+  background-color: #8e8c8c;
+  width: 20%;
+  font-size: 16px;
+
+}
+
+
+.container {
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  padding-left: 300px;}
+
+.LigneH {
+  align-items: center;
+
+}
+
+select{
+  display: block;
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+
