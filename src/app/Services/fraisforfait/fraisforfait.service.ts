@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FraisforfaitService {
-private readonly apiUrl = 'http://localhost:8080/api/fraisforfaits';
+private apiUrl = 'http://localhost:8080/api/fraisforfaits';
 
     constructor(private readonly http: HttpClient) {}
 
@@ -19,8 +19,13 @@ private readonly apiUrl = 'http://localhost:8080/api/fraisforfaits';
     }
 
     addFrais(item: any): Observable<any> {
-      return this.http.post<any>(this.apiUrl, JSON.stringify(item));
-    }
+console.log("Ajout frais forfait:", JSON.stringify(item));
+          return this.http.post<any>(this.apiUrl+"/save", item).pipe(
+            catchError(error => {
+              console.error("Erreur lors de l'ajout de frais  forfait", error);
+              return throwError(() => new Error('Impossible  de frais  forfait'));
+    })
+  );    }
 
     updateFrais(id: number, item: any): Observable<any> {
       return this.http.put<any>(`${this.apiUrl}/${id}`, item);

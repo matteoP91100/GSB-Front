@@ -1,26 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title></title>
-
+  <title>Fiche de Frais</title>
 </head>
 <body>
 
-
   <div class="main">
     <h1>Fiche de Frais</h1>
-    <form [formGroup]="ligneFraisHorsForfait" (ngSubmit)="Submit()">
-    <label for="date">Date d'Opération :</label>
-    <input id="date" formControlName="date" type="date" required>
 
+    <!-- Formulaire Frais Hors Forfait -->
+    <form [formGroup]="myForm" (ngSubmit)="Submit()">
+      <label for="date">Date d'Opération :</label>
+      <input id="date" formControlName="date" type="date" required>
 
       <h1>Frais Hors Forfait</h1>
 
-      <div class="LigneH"></div>
-
-      <label for="libelles">Choisissez un type de note  :</label>
+      <label for="libelle">Choisissez un type de note :</label>
       <select formControlName="libelle" id="libelle" required>
         <option *ngFor="let libelle of libelles" [value]="libelle.value">
           {{ libelle.label }}
@@ -28,35 +25,34 @@
       </select>
 
       <label for="montantHF">Montant :</label>
-      <input id="montantHF" formControlName="montantHF" type="double" required>
-    </form>
+      <input id="montantHF" formControlName="montantHF" type="number" step="0.01" required>
+
 
     <h1>Frais Forfait</h1>
 
-    <form [formGroup]="myForm" (ngSubmit)="Submit()">
+
       <div formArrayName="rows">
         <div *ngFor="let row of rows.controls; let i = index" [formGroupName]="i">
 
-          <label for="type">Choisissez un type de note  :</label>
-      <select formControlName="type" id="type" required>
-        <option *ngFor="let type of types" [value]="type.value">
-          {{ type.label }}
-        </option>
-      </select>
+          <!-- Correction des labels -->
+          <label [for]="'type-' + i">Choisissez un type de note :</label>
+          <select formControlName="type" [id]="'type-' + i" required>
+            <option *ngFor="let type of types" [value]="type.value">
+              {{ type.label }}
+            </option>
+          </select>
 
+          <label [for]="'montantF-' + i">Montant :</label>
+          <input [id]="'montantF-' + i" formControlName="montantF" type="number" step="0.01" required>
 
-    <label for="montantF">Montant :</label>
-    <input id="montantF" formControlName="montantF" type="double" required>
-    <div class="choicenumber">
-    <button type="button" (click)="removeRow(i)">Supprimer un frais forfait</button>
+          <button type="button" (click)="removeRow(i)">Supprimer un frais forfait</button>
+        </div>
+      </div>
+
+      <button type="button" (click)="addRow()">Ajouter un frais forfait</button>
+      <button type="submit">Valider</button>
+    </form>
   </div>
-  </div>
-</div>
 
-<div class="choicenumber">
-  <button type="button" (click)="addRow()">Ajouter un frais forfait</button>
-</div>
-
-  <button type="button" (click)="Submit()">Valider</button>
-</form>
-
+</body>
+</html>

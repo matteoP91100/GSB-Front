@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,13 +9,7 @@ export class FraishorsforfaitService {
 
   private apiUrl = 'http://localhost:8080/api/lignefraishorsforfaits';
 
-  protected get requestHeaders(): { headers: HttpHeaders } {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Accept: 'application/json, text/plain, */*',
-    });
-    return { headers };
-  }
+
     constructor(private http: HttpClient) {}
 
     getFraisHs(): Observable<any[]> {
@@ -28,9 +22,14 @@ export class FraishorsforfaitService {
 
 
     addFraisH(item: any): Observable<any> {
-      console.log("test", item);
-      return this.http.post<any>(this.apiUrl, item, this.requestHeaders);
-    }
+      console.log("Ajout ligne frais hors forfait:", JSON.stringify(item));
+          return this.http.post<any>(this.apiUrl+"/save", item).pipe(
+            catchError(error => {
+              console.error("Erreur lors de l'ajout de la ligne de frais hors forfait", error);
+              return throwError(() => new Error('Impossible d’ajouter la ligne de frais hors forfait'));
+    })
+  );
+  }
 
     updateFraisH(id: number, item: any): Observable<any> {
       return this.http.put<any>(`${this.apiUrl}/${id}`, item);

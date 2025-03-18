@@ -5,54 +5,43 @@ import { FraishorsforfaitService } from '../../../Services/fraishorsforfait/frai
 import { LigneFraisauforfaitService } from '../../../Services/lignefraisauforfait/lignefraisauforfait.service';
 import { FraisforfaitService } from '../../../Services/fraisforfait/fraisforfait.service';
 import { CommonModule, NgFor } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 
 @Component({
     selector: 'app-newnotes',
     standalone:true,
-    imports: [ReactiveFormsModule, NgFor, CommonModule,HttpClientModule],
+    imports: [ReactiveFormsModule, NgFor, CommonModule, ],
     templateUrl: './newnotes.component.html',
     styleUrl: './newnotes.component.css'
 })
 export class NewnotesComponent {
 
-  ligneFraisForfait: FormGroup;
- ligneFraisHorsForfait: FormGroup;
- fraisForfait: FormGroup;
  myForm: FormGroup;
    types = [
-     { value: 'type 1', label: 'Repas' },
-     { value: 'type 2', label: 'Kilometrage' },
-     { value: 'type 3', label: 'Hebergement' },
-     { value: 'type 4', label: 'Relais étape' },
+     { value: 'Repas', label: 'Repas' },
+     { value: 'Kilometrage', label: 'Kilometrage' },
+     { value: 'Hebergement', label: 'Hebergement' },
+     { value: 'Relais étape', label: 'Relais étape' },
    ];
 
    libelles = [
-    { value: 'type 1', label: 'Repas' },
-    { value: 'type 2', label: 'Kilometrage' },
-    { value: 'type 3', label: 'Hebergement' },
-    { value: 'type 4', label: 'Achat de fourniture' },
-    { value: 'type 5', label: 'Réservation de salle' },
+    { value: 'Repas', label: 'Repas' },
+    { value: 'Kilometrage', label: 'Kilometrage' },
+    { value: 'Hebergement', label: 'Hebergement' },
+    { value: 'Achat de fourniture', label: 'Achat de fourniture' },
+    { value: 'Réservation de salle', label: 'Réservation de salle' },
 
   ];
    constructor(private fb: FormBuilder,private fraisH: FraishorsforfaitService, private notes: NotedefraisService, private ligneFrais: LigneFraisauforfaitService, private fraisF: FraisforfaitService) { // Injectez le service
 
-    this.myForm = this.fb.group({
-      rows: this.fb.array([]) // FormArray pour les lignes dynamiques
-    });
-    this.ligneFraisForfait = new FormGroup({
-      quantite: new FormControl('')
-    });
-    this.ligneFraisHorsForfait = new FormGroup({
-       libelle: new FormControl(''),
-       date: new FormControl(''),
-      montantHF: new FormControl('')
-    });
-    this.fraisForfait = new FormGroup({
-      type: new FormControl(''),
-      montantF: new FormControl('') // Champ description
+   /* this.myForm = this.fb.group({
+      rows: this.fb.array([]) // FormArray pour les lignes dynamiques*/
 
-   });
+      this.myForm = this.fb.group({
+        date: ['', Validators.required],
+        libelle: ['', Validators.required],
+        montantHF: ['', [Validators.required, Validators.min(0)]],
+        rows: this.fb.array([])
+      });
 
   }
     // Accès rapide à FormArray
@@ -68,8 +57,8 @@ export class NewnotesComponent {
         // Exemple avec validation
       });
       this.rows.push(row);
-      console.log('Nouvelle ligne ajoutée', this.myForm.value);
-      return this.myForm.value
+      console.log('Nouvelle ligne ajoutée', this.rows.value);
+      return this.rows.value
 
     }
 
@@ -83,65 +72,80 @@ export class NewnotesComponent {
       this.rows.removeAt(index);
     }
     Submit() {
-      // Vérifier que tous les formulaires sont valides
-      if (this.ligneFraisHorsForfait.valid || this.fraisForfait.valid) {
-
+      if (this.myForm.valid) {
         // 1️⃣ Créer la FicheFrais en premier
         const ficheFraisData = {
-          user: 1,
+          user: { "id": 2 }, // ID de l'utilisateur
           date: new Date().toISOString().split('T')[0], // Date actuelle
-          etat: 1, // Exemple d’état
-          montantValide: 0, // Initialisation
-          nbJustif:0
+          etat: { "id": 1 }, // État par défaut
+          montantValide: 4.3, // Initialisation
+          nbJustif: 0
         };
-console.log("test ajout fiche"+JSON.stringify(ficheFraisData))
+
+        console.log("test ajout fiche" + JSON.stringify(ficheFraisData));
+
         this.notes.addNote(ficheFraisData).subscribe({
           next: (ficheFrais) => {
             console.log("✅ FicheFrais créée avec succès :", ficheFrais);
 
-            const ficheFraisId = ficheFrais.id; // Récupérer l'ID
+            // Récupération de l'ID de l'utilisateur
+            const userId = ficheFrais.user.id;
 
-            // 2️⃣ Ajouter les Lignes de Frais Forfait avec la FicheFrais associée
-            const rowsCount: number = this.rows.length;
-            const ligneFraisForfaitPayload = {
-              quantite: rowsCount,
-              ficheFrais: { id: ficheFraisId }, // Associer à la FicheFrais créée
+            // 2️⃣ Ajouter Frais Hors Forfait avec l'ID de la fiche
+            const fraishorsforfaitData = {
+              date: this.myForm.value.date,
+              libelle: this.myForm.value.libelle,
+              montantHF: this.myForm.value.montantHF,
+              ficheFrais: { id: ficheFrais.id } // Associer l'ID de la fiche
             };
 
-            this.ligneFrais.addLigneFrais(ligneFraisForfaitPayload).subscribe({
-              next: (response) => {
-                console.log("✅ LigneFraisForfait ajoutée :", response);
-              },
-              error: (err) => {
-                console.error("❌ Erreur ajout LigneFraisForfait :", err);
+            console.log('Frais hors forfait soumis:', fraishorsforfaitData);
+
+            this.fraisH.addFraisH(fraishorsforfaitData).subscribe({
+              next: (fraishorsForfait) => {
+                console.log("✅ Frais hors forfait créé avec succès :", fraishorsForfait);
               }
             });
 
-            // 3️⃣ Ajouter les Frais Hors Forfait avec la FicheFrais associée
-            const fraisHorsForfaitData = {
-              ...this.ligneFraisHorsForfait.value,
-              ficheFrais: { id: ficheFraisId }, // Associer la FicheFrais
-            };
+            // 3️⃣ Ajouter Frais Forfait avec l'ID de la fiche
 
-            this.fraisH.addFraisH(fraisHorsForfaitData).subscribe({
-              next: (response) => {
-                console.log("✅ FraisHorsForfait ajouté :", response);
-                this.ligneFraisHorsForfait.reset();
-              },
-              error: (err) => {
-                console.error("❌ Erreur ajout FraisHorsForfait :", err);
+            const fraisForfaitFinal = this.myForm.value.rows.map((row: any) => ({
+              type: row.type,
+              montantF: row.montantF
+            }));
+            console.log('Frais forfait soumis:', fraisForfaitFinal);
+
+            this.fraisF.addFrais(fraisForfaitFinal).subscribe({
+              next: (fraisForfait) => {
+                console.log("✅ Frais forfait créé avec succès :", fraisForfait);
+
+                // 4️⃣ Ajouter Ligne Frais Forfait avec l'ID de la fiche, l'ID des frais forfait et l'ID de l'utilisateur
+                const ligneFraisForfaitData = {
+                  ficheFrais: { id: ficheFrais.id }, // Associer à la fiche
+                  fraisForfait: { id: fraisForfait.id }, // Associer aux frais forfait
+                  user: { id: userId }, // Associer l'utilisateur
+                  quantite: this.myForm.value.rows.length // Nombre de lignes
+                };
+
+                console.log('Ligne Frais Forfait soumis:', ligneFraisForfaitData);
+
+                this.ligneFrais.addLigneFrais(ligneFraisForfaitData).subscribe({
+                  next: (ligneFraisForfait) => {
+                    console.log("✅ Ligne Frais Forfait créée avec succès :", ligneFraisForfait);
+                  }
+                });
+
               }
             });
 
           },
           error: (err) => {
-            console.error("❌ Erreur création FicheFrais :", err);
+            console.error("❌ Erreur lors de la création de la FicheFrais :", err);
           }
         });
 
       } else {
-        console.warn("⚠️ Aucun formulaire valide pour l'envoi.");
+        console.log('Le formulaire est invalide.');
       }
     }
-
-}
+  }

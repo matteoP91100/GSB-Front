@@ -8,11 +8,7 @@ import { HttpHeaders } from '@angular/common/http';
 export class LigneFraisauforfaitService {
 private apiUrl = 'http://localhost:8080/api/lignefraisforfaits';
 
-private requestHeaders = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json'
-  })
-};
+
     constructor(private http: HttpClient) {}
 
     getLigneFraiss(): Observable<any[]> {
@@ -23,8 +19,9 @@ private requestHeaders = {
       return this.http.get<any>(`${this.apiUrl}/${id}`);
     }
 
-    addLigneFrais(payload: any): Observable<any> {
-      return this.http.post<any>(this.apiUrl, payload, this.requestHeaders);
+    addLigneFrais(item: any): Observable<any> {
+      console.log("Ajout ligne frais forfait:", JSON.stringify(item));
+      return this.http.post<any>(this.apiUrl+"/save", item);
     }
 
     updateLigneFrais(id: number, item: any): Observable<any> {
