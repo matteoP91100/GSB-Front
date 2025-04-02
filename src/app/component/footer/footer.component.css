@@ -1,0 +1,53 @@
+
+/* Footer fixe en bas */
+.footer {
+  background: linear-gradient(135deg, #4F46E5, #9333EA);
+  color: white;
+  padding: 20px 0;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  position:fixed; /* Position fixe pour rester en bas */
+  bottom: 0; /* Le placer en bas de la page */
+  left: 0; /* Prendre toute la largeur de la page */
+  width: 100%; /* Assure que le footer prend toute la largeur */
+  z-index: 1000; /* S'assurer que le footer soit au-dessus de tout autre contenu */
+}
+
+/* Contenu du footer */
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Texte du footer */
+.footer p {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+/* Liens dans le footer */
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Espacement entre les liens */
+}
+
+.footer-links li {
+  display: inline;
+}
+
+.footer-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+/* Changer la couleur des liens au survol */
+.footer-links a:hover {
+  color: #D4D7FF;
+}

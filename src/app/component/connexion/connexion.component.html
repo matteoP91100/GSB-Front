@@ -1,17 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion GSB</title>
+  <link rel="stylesheet" href="connexion.component.css">
+</head>
+<body>
 
-<div class="main">
-  <h1>GSB</h1>
-  <h3>Connectez-vous avec votre compte GSB</h3>
+  <div class="main">
+    <h1>GSB</h1>
+    <h3>Connectez-vous avec votre compte GSB</h3>
 
-  <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
-    <label for="first">Nom d'utilisateur :</label>
-    <input type="text" id="first" formControlName="username" placeholder="Entrer votre nom d'utilisateur" required>
+    <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+      <label for="first">Nom d'utilisateur :</label>
+      <input type="text" id="first" formControlName="username" placeholder="Entrer votre nom d'utilisateur" required>
 
-    <label for="password">Mot de passe :</label>
-    <input type="password" id="password" formControlName="password" placeholder="Entrer votre mot de passe" required>
+      <label for="password">Mot de passe :</label>
+      <input type="password" id="password" formControlName="password" placeholder="Entrer votre mot de passe" required>
 
-    <div class="wrap">
-      <button type="submit" [disabled]="!loginForm.valid">Se connecter</button>
-    </div>
-  </form>
-</div>
+      <div class="wrap">
+        <button type="submit" [disabled]="!loginForm.valid">Se connecter</button>
+      </div>
+    </form>
+  </div>
+
+</body>
+</html>

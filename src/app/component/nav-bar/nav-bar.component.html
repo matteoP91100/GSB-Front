@@ -1,33 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <title>Bootstrap Example</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Responsive Navbar</title>
+    <link rel="stylesheet" type="text/css" href="nav-bar.component.css" />
 
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">GSB</a>
-    </div>
-    <ul class="nav navbar-nav">
-      <li class="active"><a routerLink="/home">Accueil</a></li>
-      <li><a routerLink="/about">A propos</a></li>
-      <li><a routerLink="/listnotes">Consulter des fiches</a></li>
-      <li><a routerLink="/newnotes">Renseigner des fiches</a></li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-      <li><a routerLink="/connexion"><span class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
-    </ul>
-  </div>
-</nav>
-<router-outlet></router-outlet>
+  </head>
+  <body>
+    <nav>
+
+      <button #burger class="burger" id="burger">&#9776;</button>
+      <ul #navLinks class="nav-links" id="nav-links">
+        <li><a routerLink="/home"(click)="closeMenu()">Accueil</a></li>
+        <li><a routerLink="/about"(click)="closeMenu()">A propos</a></li>
+        <li><a routerLink="/newnotes"(click)="closeMenu()">Créer une nouvelle note</a></li>
+        <li><a routerLink="/listnotes"(click)="closeMenu()">Liste des notes</a></li>
+        <li><a routerLink="/connexion"(click)="closeMenu()">Connexion</a></li>
+      </ul>
+    </nav>
+
 </body>
 </html>
-
-
+<!-- Contenu principal -->
+<router-outlet></router-outlet>

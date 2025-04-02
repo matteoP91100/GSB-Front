@@ -44,7 +44,9 @@
 
           <label [for]="'montantF-' + i">Montant :</label>
           <input [id]="'montantF-' + i" formControlName="montantF" type="number" step="0.01" required>
-
+          <div *ngIf="row.get('montantF')?.invalid && row.get('montantF')?.touched" class="error">
+            Montant invalide (doit être entre 1€ et 150€).
+          </div>
           <button type="button" (click)="removeRow(i)">Supprimer un frais forfait</button>
         </div>
       </div>
@@ -56,3 +58,4 @@
 
 </body>
 </html>
+ 

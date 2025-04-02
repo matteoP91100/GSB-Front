@@ -1,25 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { NotedefraisService } from '../../../Services/notedefrais/notedefrais.service';
+import { CommonModule, NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-list',
   standalone: true,
-  imports: [],
+  imports: [ NgFor, CommonModule],
   templateUrl: './list.component.html',
   styleUrl: './list.component.css'
 })
 export class ListComponent implements OnInit {
-  items: any[] = [];
+  fichesFrais: any[] = [];
 
-  constructor(private notedefraisService: NotedefraisService) {}
+  constructor(private notedeFraisService: NotedefraisService) {}
 
   ngOnInit(): void {
-    this.fetchNotes();
-  }
-
-  fetchNotes() {
-    this.notedefraisService.getNotes().subscribe((data) => {
-      this.items = data;
+    this.notedeFraisService.getNotes().subscribe((data) => {
+      this.fichesFrais = data;
     });
-}
+  }
 }

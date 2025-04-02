@@ -1,1 +1,23 @@
-<p>list works!</p>
+<div class="container">
+  <h2>Liste des Fiches de Frais</h2>
+
+  <div *ngFor="let fiche of fichesFrais" class="fiche-card">
+    <h3>Fiche du {{ fiche.dateModif | date }}</h3>
+    <p><strong>Total:</strong> {{ fiche.montantValide | currency }}</p>
+    <p><strong>Etat:</strong> {{ fiche.etat.libelle }}</p>
+
+    <h4>Frais Forfait</h4>
+    <ul>
+      <li *ngFor="let frais of fiche.fraisForfait">
+        {{ frais.type }} : {{ frais.montantf | currency }}
+      </li>
+    </ul>
+
+    <h4>Frais Hors Forfait</h4>
+    <ul>
+      <li *ngFor="let frais of fiche.lignefraishorsforfait">
+        {{ frais.libelle }} : {{ frais.montanthf | currency }}
+      </li>
+    </ul>
+  </div>
+</div>

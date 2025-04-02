@@ -1,3 +1,104 @@
-.navbar {
-  background-color: black;
+/* Styles de la navbar */
+nav {
+  position: fixed; /* Fixe la navbar en haut */
+  width: 100%; /* Occupe toute la largeur */
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #4F46E5, #9333EA);
+  padding: 0px 20px;
+  z-index: 1000; /* Assure que la navbar est au-dessus des autres éléments */
+}
+
+/* Logo */
+nav .logo img {
+  width: 110px; /* Modifie la largeur selon tes besoins */
+  height: auto; /* La hauteur s'ajustera automatiquement pour garder les proportions du logo */
+  transition: all 0.3s ease;
+  /* Ajoute une transition pour un effet fluide */
+}
+
+/* Liste des liens */
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  align-items: center; /* Assure l'alignement vertical */
+}
+
+.nav-links li {
+  padding: 5px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+  font-size: 18px;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #D4D7FF; /* Couleur au survol */
+}
+
+/* Burger Menu */
+.burger {
+  display: none;
+  font-size: 28px;
+  background: none;
+  border: none;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+}
+
+/* Responsive */
+@media screen and (max-width: 800px) {
+  .nav-links {
+      display: none;
+      flex-direction: column;
+      background: linear-gradient(115deg, #4F46E5, #9333EA);
+      width: 100%;
+      position: absolute;
+      top: 24px; /* Donne un peu d'espace entre le burger et les liens */
+      left: 0;
+      text-align: center;
+      align-items: center; /* Assure l'alignement vertical */
+      padding: 20px 0; /* Ajoute un peu d'espace autour des éléments du menu */
+  }
+
+  /* Centre le logo à l'écran */
+  nav .logo img {
+    margin: 0 auto;
+    width: 90px; /* Modifie la largeur selon tes besoins */
+    height: auto; /* La hauteur s'ajustera automatiquement pour garder les proportions du logo */
+    transition: all 0.3s ease; /* Ajoute une transition pour un effet fluide */
+  }
+
+  /* Affiche les liens lorsque le menu est activé */
+  .nav-links.show {
+      display: flex;
+  }
+
+  /* Affiche le burger menu */
+  .burger {
+      display: block;
+  }
+
+  /* Style des éléments dans le menu burger pour mieux les centrer */
+  .nav-links li {
+      padding: 10px 0;
+      width: 100%; /* Prend toute la largeur pour centrer le texte */
+      display: flex;
+      justify-content: center; /* Centre le texte */
+  }
+
+  .nav-links a {
+    font-size: 20px; /* Agrandit légèrement le texte pour mieux s'adapter à la taille mobile */
+  }
+}
+
+body {
+  padding-top: 3%;
 }
