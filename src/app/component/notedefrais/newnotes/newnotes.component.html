@@ -13,7 +13,7 @@
     <!-- Formulaire Frais Hors Forfait -->
     <form [formGroup]="myForm" (ngSubmit)="Submit()">
       <label for="date">Date d'Opération :</label>
-      <input id="date" formControlName="date" type="date" required>
+      <input id="date" formControlName="date" [min]="minDate" [max]="maxDate" type="date" required>
 
       <h1>Frais Hors Forfait</h1>
 
@@ -42,6 +42,11 @@
             </option>
           </select>
 
+          <label [for]="'quantiteF' + i">Quantité :</label>
+          <input [id]="'quantiteF-' + i" formControlName="quantiteF" type="int" step="1" required>
+
+
+
           <label [for]="'montantF-' + i">Montant :</label>
           <input [id]="'montantF-' + i" formControlName="montantF" type="number" step="0.01" required>
           <div *ngIf="row.get('montantF')?.invalid && row.get('montantF')?.touched" class="error">
@@ -58,4 +63,3 @@
 
 </body>
 </html>
- 

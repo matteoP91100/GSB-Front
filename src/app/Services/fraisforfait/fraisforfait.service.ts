@@ -31,7 +31,7 @@ console.log("Ajout frais forfait:", JSON.stringify(item));
       return this.http.put<any>(`${this.apiUrl}/${id}`, item);
     }
 
-    deleteFrais(id: number): Observable<any> {
-      return this.http.delete<any>(`${this.apiUrl}/${id}`);
+    deleteFraisForfait(id: number): Observable<any> {
+      return this.http.delete(`${this.apiUrl}/${id}`);
     }
 }

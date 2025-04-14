@@ -35,8 +35,8 @@ export class FraishorsforfaitService {
       return this.http.put<any>(`${this.apiUrl}/${id}`, item);
     }
 
-    deleteFraisH(id: number): Observable<any> {
-      return this.http.delete<any>(`${this.apiUrl}/${id}`);
+    deleteFraisHorsForfait(id: number): Observable<any> {
+      return this.http.delete(`${this.apiUrl}/${id}`);
     }
   }
 

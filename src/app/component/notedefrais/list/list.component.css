@@ -1,32 +1,90 @@
+body {
+  background-color: #F3F4F6;
+  color: #9333EA;
+  font-family: 'Georgia', serif;
+}
+
 .container {
-  max-width: 800px;
-  margin: auto;
+  margin: 30px auto;
   padding: 20px;
+  max-width: 900px;
+  border: 1px solid #2d61e6;
+  background-color: #ffffff;
 }
 
-.fiche-card {
-  background: white;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-}
-
-h2 {
+h1 {
   text-align: center;
   color: #4F46E5;
+  text-decoration: underline;
 }
 
-h3 {
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  color: black;
+}
+
+th, td {
+  border: 1px solid #2d61e6;
+  padding: 8px;
+  text-align: center;
+}
+
+.total {
+  margin-top: 20px;
+  text-align: right;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+/* Style général pour le container du menu déroulant */
+div {
+  margin: 20px 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Style du label */
+label {
+  font-size: 1.2em;
+  margin-right: 10px;
   color: #333;
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
+/* Style du select (menu déroulant) */
+select {
+  font-size: 1em;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+  width: 200px; /* Largeur du menu déroulant */
+  transition: all 0.3s ease;
 }
 
-li {
-  padding: 5px 0;
-  border-bottom: 1px solid #ddd;
+/* Changer la couleur de fond et l'ombre quand l'utilisateur survole le select */
+select:hover {
+  background-color: #f9f9f9;
+  border-color: #888;
+}
+
+/* Changer la couleur de fond et l'ombre quand le select est sélectionné */
+select:focus {
+  outline: none;
+  border-color: #5e9ca0; /* Bordure bleue quand l'élément est sélectionné */
+  box-shadow: 0 0 5px rgba(94, 156, 160, 0.5);
+}
+
+/* Style des options du select */
+option {
+  padding: 10px;
+  font-size: 1em;
+}
+
+/* Style spécifique à l'option sélectionnée */
+option:checked {
+  background-color: #dfe6e9;
+}
+.page-content {
+  padding-bottom: 100px; /* adapte selon la hauteur de ton footer */
 }

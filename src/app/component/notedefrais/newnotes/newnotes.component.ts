@@ -31,10 +31,26 @@ export class NewnotesComponent {
     { value: 'Réservation de salle', label: 'Réservation de salle' },
 
   ];
+
+minDate: string;
+maxDate: string;
+
+
+  // ... ton form builder ici
+
+
    constructor(private fb: FormBuilder,private fraisH: FraishorsforfaitService, private notes: NotedefraisService, private ligneFrais: LigneFraisauforfaitService, private fraisF: FraisforfaitService) { // Injectez le service
 
    /* this.myForm = this.fb.group({
       rows: this.fb.array([]) // FormArray pour les lignes dynamiques*/
+      const today = new Date();
+
+      const max = new Date(today.getFullYear(), today.getMonth()); // Mois en cours
+      const min = new Date(today.getFullYear() - 1, today.getMonth()); // Même mois l'année dernière
+
+      this.maxDate = max.toISOString().slice(0, 7); // format YYYY-MM
+      this.minDate = min.toISOString().slice(0, 7);
+
 
       this.myForm = this.fb.group({
         date: ['', Validators.required],
@@ -55,6 +71,7 @@ export class NewnotesComponent {
       const row = this.fb.group({
         type: ['', [Validators.required, Validators.min(1)]],
         montantF: ['', [Validators.required, Validators.min(1), Validators.max(150)]],
+        quantiteF: ['', [Validators.required, Validators.min(1)]]
         // Exemple avec validation
       });
       this.rows.push(row);
@@ -72,6 +89,49 @@ export class NewnotesComponent {
     removeRow(index: number) {
       this.rows.removeAt(index);
     }
+
+    lierDonneesAFiche(ficheFraisId: number) {
+      if (this.myForm.value.libelle && this.myForm.value.montantHF) {
+        const fraishorsforfaitData = {
+          date: this.myForm.value.date,
+          libelle: this.myForm.value.libelle,
+          montantHF: this.myForm.value.montantHF,
+          ficheFrais: { id: ficheFraisId }
+        };
+
+        this.fraisH.addFraisH(fraishorsforfaitData).subscribe({
+          next: (fraishorsForfait) => {
+            console.log("✅ Frais hors forfait ajouté :", fraishorsForfait);
+          }
+        });
+      }
+
+      const fraisForfaitFinal = this.myForm.value.rows.map((row: any) => ({
+        type: row.type,
+        montantF: row.montantF,
+        quantiteF: row.quantiteF,
+        ficheFrais: { id: ficheFraisId }
+      }));
+
+      const montantDepasse = fraisForfaitFinal.some((frais: any) => frais.montantF > 150);
+
+      if (montantDepasse) {
+        console.error('❌ Un montant dépasse 150€, il doit être en frais hors forfait.');
+        this.errorMessage = 'Un montant dépasse 150€, veuillez le mettre en frais hors forfait.';
+        return;
+      }
+
+      this.fraisF.addFrais(fraisForfaitFinal).subscribe({
+        next: (fraisForfait) => {
+          console.log("✅ Frais forfait créés :", fraisForfait);
+        },
+        error: (err) => {
+          console.error("❌ Erreur ajout frais forfait :", err);
+        }
+      });
+
+    }
+
     Submit() {
       if (this.myForm.get('date')?.invalid || this.rows.controls.some(row => row.invalid)) {
         console.error('❌ Formulaire invalide.');
@@ -79,70 +139,41 @@ export class NewnotesComponent {
         return;
       }
 
-      const ficheFraisData = {
-        user: { "id": 2 },
-        date: new Date().toISOString().split('T')[0],
-        etat: { "id": 1 },
-        montantValide: 4.3,
-        nbJustif: 0
-      };
+      const selectedDate = new Date(this.myForm.value.date);
+      const ficheFraisId = selectedDate.getMonth() + 1; // Janvier = 0 donc on ajoute 1
 
-      this.notes.addNote(ficheFraisData).subscribe({
-        next: (ficheFrais) => {
-          console.log("✅ FicheFrais créée avec succès :", ficheFrais);
-
-          // 📌 Vérifier si le frais hors forfait est rempli AVANT de l'envoyer
-          if (this.myForm.value.libelle && this.myForm.value.montantHF) {
-            const fraishorsforfaitData = {
-              date: this.myForm.value.date,
-              libelle: this.myForm.value.libelle,
-              montantHF: this.myForm.value.montantHF,
-              ficheFrais: { id: ficheFrais.id }
-            };
-
-            console.log('📌 Frais hors forfait soumis:', fraishorsforfaitData);
-            this.fraisH.addFraisH(fraishorsforfaitData).subscribe({
-              next: (fraishorsForfait) => {
-                console.log("✅ Frais hors forfait ajouté :", fraishorsForfait);
-              }
-            });
-          }
-
-          // 📌 Vérification des frais forfait
-          const fraisForfaitFinal = this.myForm.value.rows.map((row: any) => ({
-            type: row.type,
-            montantF: row.montantF,
-            ficheFrais: { id: ficheFrais.id }
-          }));
-
-          console.log('📌 Frais forfait soumis:', fraisForfaitFinal);
-
-          // 📌 Vérifier si un montant dépasse 150€
-          const montantDepasse = fraisForfaitFinal.some((frais: any) => frais.montantF > 150);
-
-          if (montantDepasse) {
-            console.error('❌ Un montant dépasse 150 euros, il doit être en frais hors forfait.');
-            this.errorMessage = 'Un montant dépasse 150 euros, veuillez le mettre en frais hors forfait.';
-            return;
-          }
-
-          // 📌 Ajouter les frais forfait
-          console.log('✅ Montants valides, envoi des frais forfait...');
-          this.fraisF.addFrais(fraisForfaitFinal).subscribe({
-            next: (fraisForfait) => {
-              console.log("✅ Frais forfait créé avec succès :", fraisForfait);
-            },
-            error: (err) => {
-              console.error("❌ Erreur lors de l'envoi :", err);
-            }
-          });
-
-          // 📌 Réinitialiser le formulaire
-          this.myForm.reset();
+      // Vérifie si une fiche existe déjà
+      this.notes.getNote(ficheFraisId).subscribe({
+        next: (ficheExistante) => {
+          console.log("📄 Fiche de frais existante trouvée :", ficheExistante);
+          this.lierDonneesAFiche(ficheExistante.id); // Utilise fiche existante
         },
         error: (err) => {
-          console.error("❌ Erreur lors de la création de la FicheFrais :", err);
+          if (err.status === 404) {
+            console.log("🔄 Aucune fiche trouvée, création d'une nouvelle.");
+            const ficheFraisData = {
+              id: ficheFraisId,
+              user: { id: 2 },
+              date: selectedDate.toISOString().split('T')[0],
+              etat: { id: 1 },
+              montantValide: 0,
+              nbJustif: 0
+            };
+
+            this.notes.addNote(ficheFraisData).subscribe({
+              next: (nouvelleFiche) => {
+                console.log("✅ Nouvelle fiche créée :", nouvelleFiche);
+                this.lierDonneesAFiche(nouvelleFiche.id);
+              },
+              error: (err) => {
+                console.error("❌ Erreur création fiche :", err);
+              }
+            });
+          } else {
+            console.error("❌ Erreur recherche fiche :", err);
+          }
         }
       });
     }
+
   }
