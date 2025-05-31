@@ -1,90 +1,87 @@
 body {
-  background-color: #F3F4F6;
-  color: #9333EA;
-  font-family: 'Georgia', serif;
+  margin: 0;
+  font-family: Arial, sans-serif; /* Police Arial utilisée pour les deux pages */
+  background: #F3F4F6; /* Gris clair */
+  display: flex;
+  justify-content:left;
+  align-items: flex-start; /* Aligne le contenu du body en haut */
+  height: 0vh;
+  padding-top: 50px; /* Espace ajouté pour ne pas que la navbar fixe recouvre le formulaire */
+  padding-bottom: 10px;
+}
+.bouton {
+  display: flex;
+  align-items: center; /* ✅ Aligne verticalement le label et le select */
+  gap: 10px; /* ✅ Espace entre le label et le menu déroulant */
+  margin-bottom: 20px;
 }
 
-.container {
-  margin: 30px auto;
+.bouton label {
+  margin-left: 220px;
+  font-weight: 600;
+  font-size: 16px;
+  color: #333;
+}
+
+.bouton select {
+  padding: 8px 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  color: #333;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.bouton select:focus {
+  border-color: #4F46E5;
+}
+
+.fiche-card {
+  margin: 30px 0;
   padding: 20px;
-  max-width: 900px;
-  border: 1px solid #2d61e6;
-  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  background-color: #f9f9f9;
+  margin-bottom: 60px; /* Ajoute une petite marge pour séparer les cartes */
+  margin-left: 200px;
+margin-right: 200px;
 }
 
-h1 {
-  text-align: center;
-  color: #4F46E5;
-  text-decoration: underline;
+.info p {
+  margin: 5px 0;
+  text-align: left;
 }
 
-table {
+.styled-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
-  color: black;
+  margin-top: 10px;
+  background-color: white;
 }
 
-th, td {
-  border: 1px solid #2d61e6;
-  padding: 8px;
-  text-align: center;
+.styled-table th,
+.styled-table td {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  text-align:center;
+}
+
+.styled-table thead {
+  background-color: #f2f2f2;
+  font-weight: bold;
 }
 
 .total {
   margin-top: 20px;
-  text-align: right;
-  font-size: 1.2em;
   font-weight: bold;
-}
-/* Style général pour le container du menu déroulant */
-div {
-  margin: 20px 0;
-  font-family: Arial, sans-serif;
-}
-
-/* Style du label */
-label {
   font-size: 1.2em;
-  margin-right: 10px;
-  color: #333;
+  text-align: right;
 }
 
-/* Style du select (menu déroulant) */
-select {
-  font-size: 1em;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  background-color: #fff;
-  cursor: pointer;
-  width: 200px; /* Largeur du menu déroulant */
-  transition: all 0.3s ease;
-}
-
-/* Changer la couleur de fond et l'ombre quand l'utilisateur survole le select */
-select:hover {
-  background-color: #f9f9f9;
-  border-color: #888;
-}
-
-/* Changer la couleur de fond et l'ombre quand le select est sélectionné */
-select:focus {
-  outline: none;
-  border-color: #5e9ca0; /* Bordure bleue quand l'élément est sélectionné */
-  box-shadow: 0 0 5px rgba(94, 156, 160, 0.5);
-}
-
-/* Style des options du select */
-option {
-  padding: 10px;
-  font-size: 1em;
-}
-
-/* Style spécifique à l'option sélectionnée */
-option:checked {
-  background-color: #dfe6e9;
-}
 .page-content {
-  padding-bottom: 100px; /* adapte selon la hauteur de ton footer */
+  padding-top: 0px;
+  padding-bottom: 100px; /* Ajuste cette valeur selon la hauteur de ton footer */
 }
+

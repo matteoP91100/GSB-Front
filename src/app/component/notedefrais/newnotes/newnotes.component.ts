@@ -139,39 +139,22 @@ maxDate: string;
         return;
       }
 
-      const selectedDate = new Date(this.myForm.value.date);
-      const ficheFraisId = selectedDate.getMonth() + 1; // Janvier = 0 donc on ajoute 1
+      const ficheFraisData = {
+        user: { id: 1 }, // Remplace par l'ID de l'utilisateur connecté si besoin
+        dateModif: this.myForm.value.date, // Stocke une vraie date ici
+        etat: { id: 1 },
+        montantValide: 0,
+        nbJustif: 0
+      };
 
-      // Vérifie si une fiche existe déjà
-      this.notes.getNote(ficheFraisId).subscribe({
-        next: (ficheExistante) => {
-          console.log("📄 Fiche de frais existante trouvée :", ficheExistante);
-          this.lierDonneesAFiche(ficheExistante.id); // Utilise fiche existante
+      this.notes.addNote(ficheFraisData).subscribe({
+        next: (nouvelleFiche) => {
+          console.log("✅ Nouvelle fiche créée :", nouvelleFiche);
+          this.lierDonneesAFiche(nouvelleFiche.id); // ⬅️ Tu peux garder cette logique
         },
         error: (err) => {
-          if (err.status === 404) {
-            console.log("🔄 Aucune fiche trouvée, création d'une nouvelle.");
-            const ficheFraisData = {
-              id: ficheFraisId,
-              user: { id: 2 },
-              date: selectedDate.toISOString().split('T')[0],
-              etat: { id: 1 },
-              montantValide: 0,
-              nbJustif: 0
-            };
-
-            this.notes.addNote(ficheFraisData).subscribe({
-              next: (nouvelleFiche) => {
-                console.log("✅ Nouvelle fiche créée :", nouvelleFiche);
-                this.lierDonneesAFiche(nouvelleFiche.id);
-              },
-              error: (err) => {
-                console.error("❌ Erreur création fiche :", err);
-              }
-            });
-          } else {
-            console.error("❌ Erreur recherche fiche :", err);
-          }
+          console.error("❌ Erreur création fiche :", err);
+          this.errorMessage = "Erreur lors de la création de la fiche.";
         }
       });
     }

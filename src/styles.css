@@ -1,1 +1,87 @@
 /* You can add global styles to this file, and also import other style files */
+/* GLOBAL STYLES - styles.scss */
+
+/* Fond de la page */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #F3F4F6;
+  padding-top: 50px;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+/* Conteneur du formulaire */
+.main {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  width: 400px;
+  text-align: center;
+  margin: 40px auto;
+}
+
+/* Titres */
+h1 {
+  color: #4F46E5;
+  font-size: 22px;
+  margin-bottom: 15px;
+}
+
+h3 {
+  color: #666;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+/* Labels */
+label {
+  font-weight: bold;
+  display: block;
+  margin-top: 10px;
+  text-align: left;
+  color: #333;
+}
+
+/* Champs */
+input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  background: #F9FAFB;
+  color: #333;
+}
+
+/* Boutons */
+button {
+  background: #4F46E5;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-size: 16px;
+  margin-top: 15px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  width: 100%;
+  max-width: 300px;
+}
+
+button:hover {
+  background: #372D9E;
+}
+
+button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}

@@ -1,0 +1,16 @@
+<div *ngIf="loading">Chargement...</div>
+
+<div *ngIf="error" class="text-red-500">{{ error }}</div>
+
+<div *ngIf="!loading && !error">
+  <h2 class="text-xl font-bold mb-4">Utilisateurs sans Frais Hors Forfait</h2>
+  <ul *ngIf="users.length > 0; else noUsers">
+    <li *ngFor="let user of users">
+      {{ user.name }} {{ user.lastname }} ({{ user.email }})
+    </li>
+  </ul>
+
+  <ng-template #noUsers>
+    <p>Aucun utilisateur trouvé.</p>
+  </ng-template>
+</div>

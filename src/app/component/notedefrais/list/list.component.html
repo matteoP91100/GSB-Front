@@ -1,75 +1,119 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>Remboursement de Frais Engagés</title>
-  <link rel="stylesheet" href="list.component.css">
-</head>
-<body>
-  <div class="page-content">
-    <div>
-      <label for="mois">Sélectionner un mois :</label>
-      <select id="mois" [(ngModel)]="mois" (change)="onMonthChange()">
-        <option *ngFor="let month of months" [value]="month.value">{{ month.name }}</option>
-      </select>
-    </div>
-
-    <div class="container">
-      <h1>REMBOURSEMENT DE FRAIS ENGAGES</h1>
-
-      <div class="info">
-        <p><strong>Visiteur</strong> : <span id="visiteurId"></span> <span id="visiteurNom">{{fiche.user.lastname}}</span></p>
-        <p><strong>Mois</strong> : <span id="mois">{{mois}}</span></p>
-        <p><strong>Etat</strong> : <span id=etat>{{fiche.etat.libelle}}</span></p>
-      </div>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Frais Forfaitaires</th>
-            <th>Quantité</th>
-            <th>Montant Payé</th>
-            <th>Montant unitaire</th>
-            <th>Total</th>
-            <th>Actions</th> <!-- Nouvelle colonne pour supprimer -->
-          </tr>
-        </thead>
-        <tbody id="forfaitaires">
-          <tr *ngFor="let frais of fiche?.FraisForfaits; let i = index">
-            <td>{{ frais.type }}</td>
-            <td>{{ frais.quantiteF }}</td>
-            <td>{{ frais.montantF | currency:'EUR':'symbol':'1.2-2':'fr-FR'  }}</td>
-            <td>{{ getTarif(frais.type) | number: '1.2-2' }}</td>
-            <td>{{ frais.quantiteF * getTarif(frais.type) | currency:'EUR':'symbol':'1.2-2':'fr-FR'  }}</td>
-            <td><button (click)="deleteFraisForfait(i)">Supprimer</button></td> <!-- Utilisation de l'index 'i' -->
-          </tr>
-        </tbody>
-      </table>
-
-      <h3>Autres Frais</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Libellé</th>
-            <th>Montant</th>
-            <th>Actions</th> <!-- Nouvelle colonne pour supprimer -->
-          </tr>
-        </thead>
-        <tbody id="autres">
-          <tr *ngFor="let frais of fiche?.ligneFraisHorsForfaits; let i = index">
-            <td>{{ frais.date }}</td>
-            <td>{{ frais.libelle }}</td>
-            <td>{{ frais.montantHF | currency:'EUR':'symbol':'1.2-2':'fr-FR'  }}</td>
-            <td><button (click)="deleteFraisHorsForfait(i)">Supprimer</button></td> <!-- Utilisation de l'index 'i' -->
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="total">
-        TOTAL <span id="total">{{ calculerTotal() | currency:'EUR':'symbol':'1.2-2':'fr-FR' }}</span>
-      </div>
-    </div>
+<div class="page-content">
+  <h1>Note de frais</h1>
+  <div class="bouton">
+    <label for="mois">Sélectionner un mois :</label>
+    <select id="mois" [(ngModel)]="mois" (change)="onMonthChange()">
+      <option *ngFor="let m of months" [value]="m.value">{{ m.name }}</option>
+    </select>
   </div>
-</body>
-</html>
+
+  <label for="user">Choisissez un département :</label>
+<select id="user" [(ngModel)]="userId" (change)="onUserChange()">
+  <option value="">-- Sélectionnez --</option>
+  <option *ngFor="let u of users" [value]="u.code">
+    {{ u.code }}
+  </option>
+</select>
+
+<!--finir de faire par trimestre au prochain cours-->
+
+<!--Pour trier par département
+<label for="departement">Choisissez un département :</label>
+<select id="departement" [(ngModel)]="departement" (change)="onDepChange()">
+  <option value="">-- Sélectionnez --</option>
+  <option *ngFor="let dep of departements" [value]="dep.code">
+    {{ dep.code }}
+  </option>
+</select>
+ Et ici calculer le total des fiches de frais par filtré
+<p>Total général : {{ calculerSommeTotaleFiches() | number:'1.2-2' }} €</p>-->
+
+<!--<label for="mois1">Premier mois :</label>
+<select id="mois1" [(ngModel)]="mois1" (change)="onMonthChange()">
+  <option *ngFor="let m of months" [value]="m.value">{{ m.name }}</option>
+</select>
+
+<label for="mois2">Deuxième mois :</label>
+<select id="mois2" [(ngModel)]="mois2" (change)="onMonthChange()">
+  <option *ngFor="let m of months" [value]="m.value">{{ m.name }}</option>
+</select>
+<div>
+  <p>Le ratio entre les frais forfait et hors forfait est : {{ ratio | number: '1.2-2' }}</p>
+</div>
+-->
+
+<!-- Affichage du nombre d'utilisateurs avec 3 frais forfaits ou plus -->
+<!-- <div *ngIf="fichesFiltrees.length > 0">
+  <p>Il y a {{ getUserCountWithThreeOrMoreFrais() }} utilisateurs avec 3 frais forfaits ou plus pour ce mois.</p>
+</div>-->
+
+<!-- <div *ngIf="fichesFiltrees.length === 0">
+  <p>Aucune fiche disponible avec 3 frais forfait ou plus pour ce mois.</p>
+</div>-->
+
+<!--<div *ngIf="fichesFiltrees.length > 0">
+  <h3>Totaux des frais forfaitaires par type</h3>
+  <ul>
+    <li *ngFor="let type of getTotalFraisForfaitParType() | keyvalue">
+      {{ type.key }} : {{ type.value | currency:'EUR':'symbol':'1.2-2':'fr-FR' }}
+    </li>
+  </ul>
+</div>-->
+
+
+<div *ngFor="let fiche of fichesFiltrees" class="fiche-card">
+  <h2>Fiche n°{{ fiche.id }}</h2>
+
+  <div class="info">
+    <p><strong>Visiteur :</strong>{{ fiche.user?.lastname }}</p>
+    <p><strong>Role :</strong> {{ fiche.user?.role }}</p>
+    <p><strong>Date :</strong> {{ fiche.dateModif | date:'dd/MM/yyyy' }}</p>
+    <p><strong>État :</strong> {{ fiche.etat?.libelle }}</p>
+  </div>
+
+  <h3>Frais Forfaitaires ({{ fiche.fraisForfaits?.length }})</h3>
+
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Quantité</th>
+        <th>Montant unitaire</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let ff of fiche.fraisForfaits">
+        <td>{{ ff.type }}</td>
+        <td>{{ ff.quantiteF }}</td>
+        <td>{{ ff.montantF | currency:'EUR':'symbol':'1.2-2':'fr-FR' }}</td>
+        <td>{{ ff.quantiteF * ff.montantF | currency:'EUR':'symbol':'1.2-2':'fr-FR' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- BONUS : Si tu veux aussi afficher les frais hors forfait -->
+  <div *ngIf="fiche.ligneFraisHorsForfaits?.length > 0">
+    <h3>Autres Frais</h3>
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Libellé</th>
+          <th>Montant</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let hf of fiche.ligneFraisHorsForfaits">
+          <td>{{ hf.date | date:'dd/MM/yyyy' }}</td>
+          <td>{{ hf.libelle }}</td>
+          <td>{{ hf.montantHF | currency:'EUR':'symbol':'1.2-2':'fr-FR' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="total">
+    TOTAL :
+    {{ calculerTotal(fiche) | currency:'EUR':'symbol':'1.2-2':'fr-FR' }}
+  </div>
+</div>
