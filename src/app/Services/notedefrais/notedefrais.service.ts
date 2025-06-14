@@ -36,9 +36,6 @@ export class NotedefraisService {
     return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
 
-  getFichesAvecMinFraisForfait(mois: number) {
-    return this.http.get<any[]>(`/api/fichesfrais?mois=${mois}&minFraisForfait=3`);
-  }
 
   getFichesByMoisFiltrees(mois: number) {
     return this.http.get<any[]>(`${this.apiUrl}/mois/${mois}/filtrer`);
@@ -48,17 +45,6 @@ export class NotedefraisService {
     return this.http.get<any[]>(`${this.apiUrl}/mois/${mois}`);
   }
 
-  getFichesParMoisEtDepartement(mois: number, departement: number){
-    return this.http.get<any[]>(`${this.apiUrl}/mois/${mois}/departement?departement=${departement}`);
-  }
-
-  getFichesParMoisEtUser(mois: number, user: number){
-    return this.http.get<any[]>(`${this.apiUrl}/mois/${mois}/user?user=${user}`);
-  }
-
-  getFichesParTrimestre(userId: number, trimestre: number) {
-    return this.http.get<any[]>(`${this.apiUrl}/user/${userId}/trimestre/${trimestre}`);
-  }
 
 
 }

@@ -7,15 +7,27 @@
     </select>
   </div>
 
-  <label for="user">Choisissez un département :</label>
+  
+<!--
+  <div class="bouton">
+  <label for="user">Choisissez un utilisateur :</label>
 <select id="user" [(ngModel)]="userId" (change)="onUserChange()">
   <option value="">-- Sélectionnez --</option>
   <option *ngFor="let u of users" [value]="u.code">
     {{ u.code }}
   </option>
 </select>
+</div>
 
-<!--finir de faire par trimestre au prochain cours-->
+<div class="bouton">
+  <label for="user">Choisissez un trimestre :</label>
+<select id="user" [(ngModel)]="trimestre" (change)="onTrimestreChange()">
+  <option value="">-- Sélectionnez --</option>
+  <option *ngFor="let t of trimestres" [value]="t.code">{{ t.name }}>
+  </option>
+</select>
+</div>
+-->
 
 <!--Pour trier par département
 <label for="departement">Choisissez un département :</label>

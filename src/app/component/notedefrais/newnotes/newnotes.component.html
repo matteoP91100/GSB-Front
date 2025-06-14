@@ -34,7 +34,6 @@
       <div formArrayName="rows">
         <div *ngFor="let row of rows.controls; let i = index" [formGroupName]="i">
 
-          <!-- Correction des labels -->
           <label [for]="'type-' + i">Choisissez un type de note :</label>
           <select formControlName="type" [id]="'type-' + i" required>
             <option *ngFor="let type of types" [value]="type.value">
